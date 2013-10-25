@@ -1,5 +1,5 @@
 --- 
-layout: default 
+layout: with_comment 
 title:  Join Document Frequency with Term Frequency
 ---
 

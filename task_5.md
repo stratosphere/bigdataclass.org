@@ -1,5 +1,5 @@
 --- 
-layout: default 
+layout: with_comment 
 title:  "Reduce: WeightVector per Document."
 ---
 
