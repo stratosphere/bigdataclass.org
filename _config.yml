@@ -7,5 +7,5 @@ lsi:                false
 
 
 # see https://github.com/mojombo/jekyll/issues/332
-baseurl:            "/"
+baseurl:            ""
 

@@ -1,6 +1,6 @@
 --- 
 layout: default 
-title:  Reduce: WeightVector per Document.
+title:  "Reduce: WeightVector per Document."
 ---
 
 

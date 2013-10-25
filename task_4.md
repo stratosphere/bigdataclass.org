@@ -1,6 +1,6 @@
 --- 
 layout: default 
-title:  Create a custom datatype: WeightVector
+title:  "Create a custom datatype: WeightVector"
 ---
 
 
