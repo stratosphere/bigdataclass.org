@@ -1,0 +1,13 @@
+---
+layout: default 
+---
+
+<div class="subnav" id="navbar-inner">
+  <ul class="nav nav-pills">
+    {% for task in page.tasks %}<li class=""><a href="#{{ task.anchor }}">{{ task.title }}</a></li>{% endfor %}
+  </ul>
+</div>
+
+<div>
+{{ content }}
+</div>

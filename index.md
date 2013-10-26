@@ -1,9 +1,8 @@
 --- 
 layout: default 
-title:  Index
+title:  Overview
 ---
 
-In this programming assignment, you are going to program the [tf-idf](http://en.wikipedia.org/wiki/Tf%E2%80%93idf) for a small dataset in Stratosphere. Td-idf is an important weight for example for search engines.
+Welcome to BigDataClass.org!
 
-<img src="plan.svg" onerror="this.onerror=null; this.src='image.png'" class="img-rounded">
-
+Go to [Exercise 1]({{ site.baseurl }}/exercise_1.html)
