@@ -1,7 +1,8 @@
 --- 
-layout: default 
-title:  Setup
+layout: with_comment 
+title:  "Setup"
 ---
+
 
 First, you need to install git, Maven 3 and Eclipse on your machine.
 
@@ -10,6 +11,7 @@ sudo apt-get install git maven eclipse
 ```
 
 Next, clone the skeleton for the assignment.
+
 ```
 git clone https://github.com/stratosphere/stratosphere-tutorial.git
 cd stratosphere
