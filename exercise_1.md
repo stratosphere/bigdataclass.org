@@ -17,7 +17,13 @@ In this programming assignment, you are going to compute [tf-idf](http://en.wiki
 
 The following figure gives an overview of what we are going to do in each task:
 
-<img src="plan.svg" onerror="this.onerror=null; this.src='image.png'" class="img-rounded">
+<img src="plan.svg" onerror="this.onerror=null; this.src='plan.svg'" class="img-rounded">
+
+
+<button class="btn btn-primary" id="show-plan-example">Show more detailed example</button>
+
+<img id="plan-example" style="display:none;" src="plan-example.svg" onerror="this.onerror=null; this.src='plan-example.svg'" class="img-rounded">
+
 </section>
 
 <section id="task1">
