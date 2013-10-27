@@ -6,8 +6,7 @@ tasks:
   -       { anchor: task1, title: "1: Document Frequency" }
   -       { anchor: task2", title: "2: Term Frequency" }
   -       { anchor: task3, title: "3: Join" }
-  -       { anchor: task4, title: "4: WeightVector" }
-  -       { anchor: task5, title: "5: WeightVector per Document" }
+  -       { anchor: task4, title: "4: WeightVector per Document" }
 ---
 
 <section id="overview">
@@ -100,7 +99,7 @@ match( (word, df), (docid, word, tf)) {
 </section>
 
 <section id="task4">
-<h2 class="page-header">Task 4: Custom Type</h2>
+<h2 class="page-header">Task 4: Custom Type and Weigths per Document</h2>
 
 <div class="progress">
   <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
@@ -108,25 +107,20 @@ match( (word, df), (docid, word, tf)) {
   </div>
 </div>
 
+### Preparation
+
 Stratosphere comes with a bunch of build-in datatypes. For this assignment, you are going to implement your own. This task is a preparation for the last one. We want to store a `WeightVector`.
 The datatype has a `add(String, double)` method to store the weight of each word.
 
 The main task here is implementing the data de/serialization methods which are used before transferring the data through the network or to disk.
 
 We recommend to store each `(String, double)` pair in two lists.
-</section>
 
-<section id="task5">
-<h2 class="page-header">Task 5: Custom Type</h2>
-
-<div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-    <span class="sr-only">80% Complete</span>
-  </div>
-</div>
+### Term Weights per Document
 
 This reduce task takes the output of the join and groups it by the document ids (`docid`).
 Write the document id and the terms including their weight into the `WeightVector` you have created in the previous task.
+
 </section>
 
 ## Congratulations!
