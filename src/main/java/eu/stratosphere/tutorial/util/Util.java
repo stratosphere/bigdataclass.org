@@ -174,16 +174,16 @@ public class Util {
 	public static String createTempFile(String fileName, String contents) throws IOException {
 		File f = createAndRegisterTempFile(fileName);
 		Files.write(contents, f, Charsets.UTF_8);
-		return "file://" + f.getAbsolutePath();
+		return f.toURI().toString();
 	}
 
 	public static String createTempDir(String dirName) throws IOException {
 		File f = createAndRegisterTempFile(dirName);
-		return "file://" + f.getAbsolutePath();
+		return f.toURI().toString();
 	}
 
 	public static String getTempPath() {
-		return "file://" + new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
+		return new File(System.getProperty("java.io.tmpdir")).toURI().toString();
 	}
 
 
