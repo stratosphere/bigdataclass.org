@@ -21,3 +21,18 @@ cd bigdataclass.org
 Import this project into Eclipse, using the "Import -> Import as Maven Project" menu.
 This can take a while as Maven is going to download all the dependencies.
 
+When you are working on the Scala Exercise you will also need the following
+plugins:
+
+Eclipse 4.x:
+
+  * scala-ide: http://download.scala-ide.org/sdk/e38/scala210/stable/site
+  * m2eclipse-scala: http://alchim31.free.fr/m2e-scala/update-site
+  * build-helper-maven-plugin: https://repository.sonatype.org/content/repositories/forge-sites/m2e-extras/0.15.0/N/0.15.0.201206251206/
+
+Eclipse 3.7:
+
+  * scala-ide: http://download.scala-ide.org/sdk/e37/scala210/stable/site
+  * m2eclipse-scala: http://alchim31.free.fr/m2e-scala/update-site
+  * build-helper-maven-plugin: https://repository.sonatype.org/content/repositories/forge-sites/m2e-extras/0.14.0/N/0.14.0.201109282148/
+
