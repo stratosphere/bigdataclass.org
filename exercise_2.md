@@ -105,7 +105,8 @@ input.
 
 The user code gets to inputs, namely a record from the left and a record from
 the right. So the join operation looks like this:
-```scala
+
+```javascript
 val  tfIdf = documentFrequencies
   .join(termFrequencies)
   .where { ... }
@@ -117,7 +118,8 @@ val  tfIdf = documentFrequencies
 Where left is a tuple of `(word, freq)` and right is a tuple of
 `(docId, word, freq)`. Keep in mind that you can neatly extract from
 tuples using:
-```scala
+
+```javascript
 val (word, freq) = left
 ```
 
@@ -130,6 +132,9 @@ join( (word, df), (docid, word, tf)) {
     return (docid, word, tf_idf(word))
 }
 ```
+
+The output from the join should be a tuple of `(docId, word, tf-idf)`.
+
 </section>
 
 <section id="task4">
