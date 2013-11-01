@@ -9,7 +9,7 @@ title:  Overview
 Welcome to BigDataClass.org!
 
 Before you get started on the exercises please go to
-[Getting Started]({{ site.baseurl }}/exercise_1.html) to learn how to get the
+[Getting Started]({{ site.baseurl }}/gettingstarted.html) to learn how to get the
 example code and set-up your development environment.
 
 Go to [Exercise 1]({{ site.baseurl }}/exercise_1.html)
