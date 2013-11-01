@@ -9,6 +9,7 @@ title:  Overview
 Welcome to BigDataClass.org!
 
 Go to [Exercise 1]({{ site.baseurl }}/exercise_1.html)
+
 Go to [Exercise 2]({{ site.baseurl }}/exercise_2.html)
 
 
