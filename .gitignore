@@ -1,4 +1,20 @@
+*.swp
+logs.zip
+.idea
+.idea/*
+*.jar
+target
+.classpath
+.project
+.settings
+.cache
+.metadata/*
 *.class
+filter.properties
+tmp/*
+pact/pact-tests/tmp/*
+*.iml
+.idea/*
 
 # Package Files #
 *.jar
