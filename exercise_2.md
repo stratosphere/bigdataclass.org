@@ -1,6 +1,6 @@
 --- 
 layout: default_exercise
-title:  "Exercise 1: Tf-Idf"
+title:  "Exercise 2: Tf-Idf (Scala)"
 tasks: 
   -       { anchor: overview, title: "Overview"}
   -       { anchor: task1, title: "1: Document Frequency" }

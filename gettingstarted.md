@@ -18,10 +18,14 @@ git clone https://github.com/stratosphere/bigdataclass.org.git
 cd bigdataclass.org
 ```
 
-Import this project into Eclipse, using the "Import -> Import as Maven Project" menu.
+Inside the folder there is another folder for each exercise. Right now
+there is `exercise1` which contains the java exercise and `exercise2` which
+contains the Scala exercise. Each exercise is a self-contained maven
+project, you can import this project into Eclipse,
+using the "Import -> Import as Maven Project" menu.
 This can take a while as Maven is going to download all the dependencies.
 
-When you are working on the Scala Exercise you will also need the following
+When you are working on the Scala exercise you will also need the following
 plugins:
 
 Eclipse 4.x:
