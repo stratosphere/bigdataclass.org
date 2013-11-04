@@ -40,3 +40,14 @@ Eclipse 3.7:
   * m2eclipse-scala: http://alchim31.free.fr/m2e-scala/update-site
   * build-helper-maven-plugin: https://repository.sonatype.org/content/repositories/forge-sites/m2e-extras/0.14.0/N/0.14.0.201109282148/
 
+#FAQ
+
+**I'm getting a *OutOfMemoryException* on Mac OS X**
+
+Its seems that OS X does not allocate enough memory for Stratosphere's `LocalExecutor`.
+Open the Run Configuration (the drop down menu right to the "Run" button) and add the following to the JVM Arguments `-Xms400m -Xmx800m`.
+
+
+
+
+
