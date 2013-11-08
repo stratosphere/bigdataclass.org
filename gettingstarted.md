@@ -40,6 +40,11 @@ Eclipse 3.7:
   * m2eclipse-scala: http://alchim31.free.fr/m2e-scala/update-site
   * build-helper-maven-plugin: https://repository.sonatype.org/content/repositories/forge-sites/m2e-extras/0.14.0/N/0.14.0.201109282148/
 
+
+#Stratosphere Introduction
+
+<iframe src="http://www.slideshare.net/slideshow/embed_code/28037740" width="512" height="421" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/robertmetzger1/stratosphere-intro" title="Stratosphere Intro (Java and Scala Interface)" target="_blank">Stratosphere Intro (Java and Scala Interface)</a> </strong> from <strong><a href="http://www.slideshare.net/robertmetzger1" target="_blank">Robert Metzger</a></strong> </div>
+
 #FAQ
 
 **I'm getting a *OutOfMemoryException* on Mac OS X**
