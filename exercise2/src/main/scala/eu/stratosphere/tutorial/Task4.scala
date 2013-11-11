@@ -48,12 +48,12 @@ class Task4 extends PlanAssembler with PlanAssemblerDescription with Serializabl
     new ScalaPlan(Seq(sink))
   }
   
-  def formatOutput(t: (String, Iterator[(String, Double)])) = {
-    val terms = t._2 map { case (word, tfIdf) => word + ", " + tfIdf }
-    t._1 + ": " + terms.mkString("; ")
+  def formatOutput(t: WeightVector) = {
+    val terms = t.terms map { case (word, tfIdf) => word + ", " + tfIdf }
+    t.docId + ": " + terms.mkString("; ")
   }
   
-  case class WeightVector(docId: String, terms: Iterator[(String, Int)])
+  case class WeightVector(docId: String, terms: Iterator[(String, Double)])
 }
 
 object RunTask4 {
