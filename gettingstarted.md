@@ -53,6 +53,9 @@ Its seems that OS X does not allocate enough memory for Stratosphere's `LocalExe
 Open the Run Configuration (the drop down menu right to the "Run" button) and add the following to the JVM Arguments `-Xms400m -Xmx800m`.
 
 
+**How can I generate more data (Test data)?**
+
+We have written a [little tool](https://github.com/rmetzger/wikipedia-to-bdc) to convert a Wikipedia dump into the file format used in the BigDataClass 
 
 
 
