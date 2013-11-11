@@ -55,7 +55,7 @@ Open the Run Configuration (the drop down menu right to the "Run" button) and ad
 
 **How can I generate more data (Test data)?**
 
-We have written a [little tool](https://github.com/rmetzger/wikipedia-to-bdc) to convert a Wikipedia dump into the file format used in the BigDataClass 
+We have written a [little tool](https://github.com/rmetzger/wikipedia-to-bdc) to convert a Wikipedia dump into the file format used in the BigDataClass. Remember to change the document count in the util class before running with more documents.
 
 
 
