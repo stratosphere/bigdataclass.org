@@ -30,7 +30,7 @@ class Task1 extends PlanAssembler with PlanAssemblerDescription with Serializabl
       .groupBy {  }
       .reduce { (w1, w2) =>  }
     
-    val sink = documentFrequencies.write(outputPath, RecordDataSinkFormat("\n", ","))
+    val sink = documentFrequencies.write(outputPath, CsvOutputFormat("\n", ","))
     
     new ScalaPlan(Seq(sink))
     

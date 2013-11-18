@@ -26,7 +26,7 @@ class Task2 extends PlanAssembler with PlanAssemblerDescription with Serializabl
     val termFrequencies = source flatMap { line =>
     }
     
-    val sink = termFrequencies.write(outputPath, RecordDataSinkFormat("\n", ","))
+    val sink = termFrequencies.write(outputPath, CsvOutputFormat("\n", ","))
     
     new ScalaPlan(Seq(sink))
     

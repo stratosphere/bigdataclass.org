@@ -43,7 +43,7 @@ class Task3 extends PlanAssembler with PlanAssemblerDescription with Serializabl
       .map { (left, right) =>
       }
     
-    val sink = tfIdf.write(outputPath, RecordDataSinkFormat("\n", ","))
+    val sink = tfIdf.write(outputPath, CsvOutputFormat("\n", ","))
     
     new ScalaPlan(Seq(sink))
     
