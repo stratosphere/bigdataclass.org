@@ -14,23 +14,23 @@
  **********************************************************************************************************************/
 package eu.stratosphere.tutorial.task1;
 
-import eu.stratosphere.pact.common.contract.FileDataSink;
-import eu.stratosphere.pact.common.contract.FileDataSource;
-import eu.stratosphere.pact.common.contract.MapContract;
-import eu.stratosphere.pact.common.contract.ReduceContract;
-import eu.stratosphere.pact.common.io.RecordOutputFormat;
-import eu.stratosphere.pact.common.io.TextInputFormat;
-import eu.stratosphere.pact.common.plan.Plan;
-import eu.stratosphere.pact.common.plan.PlanAssembler;
-import eu.stratosphere.pact.common.plan.PlanAssemblerDescription;
-import eu.stratosphere.pact.common.type.base.PactInteger;
-import eu.stratosphere.pact.common.type.base.PactString;
+import eu.stratosphere.api.common.Plan;
+import eu.stratosphere.api.common.Program;
+import eu.stratosphere.api.common.ProgramDescription;
+import eu.stratosphere.api.common.operators.FileDataSink;
+import eu.stratosphere.api.common.operators.FileDataSource;
+import eu.stratosphere.api.java.record.io.CsvOutputFormat;
+import eu.stratosphere.api.java.record.io.TextInputFormat;
+import eu.stratosphere.api.java.record.operators.MapOperator;
+import eu.stratosphere.api.java.record.operators.ReduceOperator;
 import eu.stratosphere.tutorial.util.Util;
+import eu.stratosphere.types.IntValue;
+import eu.stratosphere.types.StringValue;
 
 /**
  * Task 1: Plan for document frequency computation.
  */
-public class DocumentFrequencyPlan implements PlanAssembler, PlanAssemblerDescription {
+public class DocumentFrequencyPlan implements Program, ProgramDescription {
 
 	@Override
 	public String getDescription() {
@@ -48,22 +48,22 @@ public class DocumentFrequencyPlan implements PlanAssembler, PlanAssemblerDescri
 
 		// - Task 1: Document Frequency -------------------------------------------------------------------------------
 
-		MapContract dfMapper = MapContract.builder(DocumentFrequencyMapper.class)
+		MapOperator dfMapper = MapOperator.builder(DocumentFrequencyMapper.class)
 			.input(source)
 			.name("Document Frequency Mapper")
 			.build();
 
-		ReduceContract dfReducer = ReduceContract.builder(DocumentFrequencyReducer.class, PactString.class, 0)
+		ReduceOperator dfReducer = ReduceOperator.builder(DocumentFrequencyReducer.class, StringValue.class, 0)
 			.input(dfMapper)
 			.name("Document Frequency Reducer")
 			.build();
 
-		FileDataSink sink = new FileDataSink(RecordOutputFormat.class, outputPath, dfReducer, "Document Frequencies");
-		RecordOutputFormat.configureRecordFormat(sink)
+		FileDataSink sink = new FileDataSink(CsvOutputFormat.class, outputPath, dfReducer, "Document Frequencies");
+		CsvOutputFormat.configureRecordFormat(sink)
 			.recordDelimiter('\n')
 			.fieldDelimiter(' ')
-			.field(PactString.class, 0) // term
-			.field(PactInteger.class, 1); // document frequency
+			.field(StringValue.class, 0) // term
+			.field(IntValue.class, 1); // document frequency
 
 		Plan plan = new Plan(sink, "Document Frequency Computation");
 		plan.setDefaultParallelism(numSubtasks);

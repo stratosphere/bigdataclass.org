@@ -16,14 +16,14 @@ package eu.stratosphere.tutorial.task4;
 
 import java.util.Iterator;
 
-import eu.stratosphere.pact.common.stubs.Collector;
-import eu.stratosphere.pact.common.stubs.ReduceStub;
-import eu.stratosphere.pact.common.type.PactRecord;
+import eu.stratosphere.api.java.record.functions.ReduceFunction;
+import eu.stratosphere.types.Record;
+import eu.stratosphere.util.Collector;
 
 /**
  * This reducer groups by document ID and creates a {@link WeightVector} for each document.
  */
-public class WeightVectorReducer extends ReduceStub {
+public class WeightVectorReducer extends ReduceFunction {
 
 	// ----------------------------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ public class WeightVectorReducer extends ReduceStub {
 	 * Creates a Tf-Idf {@link WeightVector} for each document.
 	 */
 	@Override
-	public void reduce(Iterator<PactRecord> records, Collector<PactRecord> collector) throws Exception {
+	public void reduce(Iterator<Record> records, Collector<Record> collector) throws Exception {
 		// Implement your solution here
 	}
 }

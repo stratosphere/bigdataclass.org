@@ -14,10 +14,11 @@
  **********************************************************************************************************************/
 package eu.stratosphere.tutorial.task1;
 
-import eu.stratosphere.pact.common.stubs.Collector;
-import eu.stratosphere.pact.common.stubs.MapStub;
-import eu.stratosphere.pact.common.type.PactRecord;
-import eu.stratosphere.pact.common.type.base.PactString;
+import eu.stratosphere.api.java.record.functions.MapFunction;
+import eu.stratosphere.types.Record;
+import eu.stratosphere.types.StringValue;
+import eu.stratosphere.util.Collector;
+
 
 /**
  * This mapper is part of the document frequency computation.
@@ -38,7 +39,7 @@ import eu.stratosphere.pact.common.type.base.PactString;
  * <p>
  * The map method will be called independently for each document.
  */
-public class DocumentFrequencyMapper extends MapStub {
+public class DocumentFrequencyMapper extends MapFunction {
 
 	// ----------------------------------------------------------------------------------------------------------------
 
@@ -65,9 +66,9 @@ public class DocumentFrequencyMapper extends MapStub {
 	 * Note that the stop words "the" and "is" have been removed and everything has been lower cased.
 	 */
 	@Override
-	public void map(PactRecord record, Collector<PactRecord> collector) {
+	public void map(Record record, Collector<Record> collector) {
 		// Document with format "docId, document contents"
-		String document = record.getField(0, PactString.class).toString();
+		String document = record.getField(0, StringValue.class).toString();
 
 		// Implement your solution here
 	}

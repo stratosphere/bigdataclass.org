@@ -16,11 +16,11 @@ package eu.stratosphere.tutorial.task1;
 
 import java.util.Iterator;
 
-import eu.stratosphere.pact.common.contract.ReduceContract.Combinable;
-import eu.stratosphere.pact.common.stubs.Collector;
-import eu.stratosphere.pact.common.stubs.ReduceStub;
-import eu.stratosphere.pact.common.stubs.StubAnnotation.ConstantFields;
-import eu.stratosphere.pact.common.type.PactRecord;
+import eu.stratosphere.api.java.record.functions.FunctionAnnotation.ConstantFields;
+import eu.stratosphere.api.java.record.functions.ReduceFunction;
+import eu.stratosphere.api.java.record.operators.ReduceOperator.Combinable;
+import eu.stratosphere.types.Record;
+import eu.stratosphere.util.Collector;
 
 /**
  * This reducer is part of the document frequency computation. See {@link DocumentFrequencyMapper} for an explanation
@@ -30,7 +30,7 @@ import eu.stratosphere.pact.common.type.PactRecord;
  */
 @Combinable
 @ConstantFields(0)
-public class DocumentFrequencyReducer extends ReduceStub {
+public class DocumentFrequencyReducer extends ReduceFunction {
 
 	// ----------------------------------------------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ public class DocumentFrequencyReducer extends ReduceStub {
 	 * records.
 	 */
 	@Override
-	public void reduce(Iterator<PactRecord> records, Collector<PactRecord> collector) throws Exception {
+	public void reduce(Iterator<Record> records, Collector<Record> collector) throws Exception {
 		// Implement your solution here
 	}
 }

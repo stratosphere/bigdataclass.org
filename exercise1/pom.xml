@@ -9,18 +9,6 @@
 
   <name>StratosphereTutorialSkeleton</name>
 
-  <!--  We use the most recent development version of Stratosphere,
-        therefore, we need to use the Snapshots repository of sonatype
-  -->
-  <repositories>
-   <repository>
-     <id>snapshots-repo</id>
-     <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-     <releases><enabled>false</enabled></releases>
-     <snapshots><enabled>true</enabled></snapshots>
-   </repository>
-  </repositories>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -31,13 +19,13 @@
   <dependencies>
     <dependency>
       <groupId>eu.stratosphere</groupId>
-      <artifactId>pact-common</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <artifactId>stratosphere-java</artifactId>
+      <version>0.4</version>
     </dependency>
     <dependency>
       <groupId>eu.stratosphere</groupId>
-      <artifactId>pact-clients</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <artifactId>stratosphere-clients</artifactId>
+      <version>0.4</version>
     </dependency>
   </dependencies>
 

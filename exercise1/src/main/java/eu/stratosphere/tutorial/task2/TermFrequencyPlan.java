@@ -14,22 +14,22 @@
  **********************************************************************************************************************/
 package eu.stratosphere.tutorial.task2;
 
-import eu.stratosphere.pact.common.contract.FileDataSink;
-import eu.stratosphere.pact.common.contract.FileDataSource;
-import eu.stratosphere.pact.common.contract.MapContract;
-import eu.stratosphere.pact.common.io.RecordOutputFormat;
-import eu.stratosphere.pact.common.io.TextInputFormat;
-import eu.stratosphere.pact.common.plan.Plan;
-import eu.stratosphere.pact.common.plan.PlanAssembler;
-import eu.stratosphere.pact.common.plan.PlanAssemblerDescription;
-import eu.stratosphere.pact.common.type.base.PactInteger;
-import eu.stratosphere.pact.common.type.base.PactString;
+import eu.stratosphere.api.common.Plan;
+import eu.stratosphere.api.common.Program;
+import eu.stratosphere.api.common.ProgramDescription;
+import eu.stratosphere.api.common.operators.FileDataSink;
+import eu.stratosphere.api.common.operators.FileDataSource;
+import eu.stratosphere.api.java.record.io.CsvOutputFormat;
+import eu.stratosphere.api.java.record.io.TextInputFormat;
+import eu.stratosphere.api.java.record.operators.MapOperator;
 import eu.stratosphere.tutorial.util.Util;
+import eu.stratosphere.types.IntValue;
+import eu.stratosphere.types.StringValue;
 
 /**
  * Task 2: Plan for term frequency computation.
  */
-public class TermFrequencyPlan implements PlanAssembler, PlanAssemblerDescription {
+public class TermFrequencyPlan implements Program, ProgramDescription {
 
 	@Override
 	public String getDescription() {
@@ -47,18 +47,18 @@ public class TermFrequencyPlan implements PlanAssembler, PlanAssemblerDescriptio
 
 		// - Task 2: Term Frequency -----------------------------------------------------------------------------------
 
-		MapContract tfMapper = MapContract.builder(TermFrequencyMapper.class)
+		MapOperator tfMapper = MapOperator.builder(TermFrequencyMapper.class)
 			.input(source)
 			.name("Term Frequency Mapper")
 			.build();
 
-		FileDataSink sink = new FileDataSink(RecordOutputFormat.class, outputPath, tfMapper, "Term Frequencies");
-		RecordOutputFormat.configureRecordFormat(sink)
+		FileDataSink sink = new FileDataSink(CsvOutputFormat.class, outputPath, tfMapper, "Term Frequencies");
+		CsvOutputFormat.configureRecordFormat(sink)
 			.recordDelimiter('\n')
 			.fieldDelimiter(' ')
-			.field(PactInteger.class, 0) // document ID
-			.field(PactString.class, 1) // term d
-			.field(PactInteger.class, 2); // term frequency
+			.field(IntValue.class, 0) // document ID
+			.field(StringValue.class, 1) // term d
+			.field(IntValue.class, 2); // term frequency
 
 		Plan plan = new Plan(sink, "Term Frequency Computation");
 		plan.setDefaultParallelism(numSubtasks);

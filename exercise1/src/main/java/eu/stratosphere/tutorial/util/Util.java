@@ -25,8 +25,10 @@ import org.apache.commons.io.FileUtils;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-import eu.stratosphere.pact.client.LocalExecutor;
-import eu.stratosphere.pact.common.plan.Plan;
+import eu.stratosphere.api.common.Plan;
+import eu.stratosphere.client.LocalExecutor;
+import eu.stratosphere.nephele.client.JobExecutionResult;
+
 
 public class Util {
 
@@ -166,8 +168,8 @@ public class Util {
 	public static void executePlan(Plan toExecute) throws Exception {
 		LocalExecutor executor = new LocalExecutor();
 		executor.start();
-		long runtime = executor.executePlan(toExecute);
-		System.out.println("runtime:  " + runtime);
+		JobExecutionResult res = executor.executePlan(toExecute);
+		System.out.println("runtime:  " + res.getNetRuntime());
 		executor.stop();
 	}
 

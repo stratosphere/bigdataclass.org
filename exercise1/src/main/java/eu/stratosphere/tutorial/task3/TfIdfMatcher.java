@@ -14,15 +14,15 @@
  **********************************************************************************************************************/
 package eu.stratosphere.tutorial.task3;
 
-import eu.stratosphere.pact.common.stubs.Collector;
-import eu.stratosphere.pact.common.stubs.MatchStub;
-import eu.stratosphere.pact.common.type.PactRecord;
+import eu.stratosphere.api.java.record.functions.JoinFunction;
+import eu.stratosphere.types.Record;
+import eu.stratosphere.util.Collector;
 
 /**
  * This matcher computes the tf-idf weight of every term by combining the results of the previous document and term
  * frequency computation.
  */
-public class TfIdfMatcher extends MatchStub {
+public class TfIdfMatcher extends JoinFunction {
 
 	// ----------------------------------------------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ public class TfIdfMatcher extends MatchStub {
 	 * frequency computations.
 	 */
 	@Override
-	public void match(PactRecord dfRecord, PactRecord tfRecord, Collector<PactRecord> collector) throws Exception {
+	public void join(Record dfRecord, Record tfRecord, Collector<Record> collector) throws Exception {
 		// Implement your solution here
 	}
 }

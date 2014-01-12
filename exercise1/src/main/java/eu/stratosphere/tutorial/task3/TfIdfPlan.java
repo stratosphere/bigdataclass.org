@@ -14,28 +14,28 @@
  **********************************************************************************************************************/
 package eu.stratosphere.tutorial.task3;
 
-import eu.stratosphere.pact.common.contract.FileDataSink;
-import eu.stratosphere.pact.common.contract.FileDataSource;
-import eu.stratosphere.pact.common.contract.MapContract;
-import eu.stratosphere.pact.common.contract.MatchContract;
-import eu.stratosphere.pact.common.contract.ReduceContract;
-import eu.stratosphere.pact.common.io.RecordOutputFormat;
-import eu.stratosphere.pact.common.io.TextInputFormat;
-import eu.stratosphere.pact.common.plan.Plan;
-import eu.stratosphere.pact.common.plan.PlanAssembler;
-import eu.stratosphere.pact.common.plan.PlanAssemblerDescription;
-import eu.stratosphere.pact.common.type.base.PactDouble;
-import eu.stratosphere.pact.common.type.base.PactInteger;
-import eu.stratosphere.pact.common.type.base.PactString;
+import eu.stratosphere.api.common.Plan;
+import eu.stratosphere.api.common.Program;
+import eu.stratosphere.api.common.ProgramDescription;
+import eu.stratosphere.api.common.operators.FileDataSink;
+import eu.stratosphere.api.common.operators.FileDataSource;
+import eu.stratosphere.api.java.record.io.CsvOutputFormat;
+import eu.stratosphere.api.java.record.io.TextInputFormat;
+import eu.stratosphere.api.java.record.operators.JoinOperator;
+import eu.stratosphere.api.java.record.operators.MapOperator;
+import eu.stratosphere.api.java.record.operators.ReduceOperator;
 import eu.stratosphere.tutorial.task1.DocumentFrequencyMapper;
 import eu.stratosphere.tutorial.task1.DocumentFrequencyReducer;
 import eu.stratosphere.tutorial.task2.TermFrequencyMapper;
 import eu.stratosphere.tutorial.util.Util;
+import eu.stratosphere.types.DoubleValue;
+import eu.stratosphere.types.IntValue;
+import eu.stratosphere.types.StringValue;
 
 /**
  * Task 3: Plan for Tf-Idf weight computation.
  */
-public class TfIdfPlan implements PlanAssembler, PlanAssemblerDescription {
+public class TfIdfPlan implements Program, ProgramDescription {
 
 	@Override
 	public String getDescription() {
@@ -53,38 +53,38 @@ public class TfIdfPlan implements PlanAssembler, PlanAssemblerDescription {
 
 		// - Task 1: Document Frequency -------------------------------------------------------------------------------
 
-		MapContract dfMapper = MapContract.builder(DocumentFrequencyMapper.class)
+		MapOperator dfMapper = MapOperator.builder(DocumentFrequencyMapper.class)
 			.input(source)
 			.name("Document Frequency Mapper")
 			.build();
 
-		ReduceContract dfReducer = ReduceContract.builder(DocumentFrequencyReducer.class, PactString.class, 0)
+		ReduceOperator dfReducer = ReduceOperator.builder(DocumentFrequencyReducer.class, StringValue.class, 0)
 			.input(dfMapper)
 			.name("Document Frequency Reducer")
 			.build();
 
 		// - Task 2: Term Frequency -----------------------------------------------------------------------------------
 
-		MapContract tfMapper = MapContract.builder(TermFrequencyMapper.class)
+		MapOperator tfMapper = MapOperator.builder(TermFrequencyMapper.class)
 			.input(source)
 			.name("Term Frequency Mapper")
 			.build();
 
 		// - Task 3: Term and Document Frequency Match ----------------------------------------------------------------
 
-		MatchContract dfTfMatcher = MatchContract.builder(TfIdfMatcher.class, PactString.class, 0, 1)
+		JoinOperator dfTfMatcher = JoinOperator.builder(TfIdfMatcher.class, StringValue.class, 0, 1)
 			.input1(dfReducer)
 			.input2(tfMapper)
 			.name("Tf-Idf Matcher")
 			.build();
 
-		FileDataSink sink = new FileDataSink(RecordOutputFormat.class, outputPath, dfTfMatcher, "Tf-Idf Weights");
-		RecordOutputFormat.configureRecordFormat(sink)
+		FileDataSink sink = new FileDataSink(CsvOutputFormat.class, outputPath, dfTfMatcher, "Tf-Idf Weights");
+		CsvOutputFormat.configureRecordFormat(sink)
 			.recordDelimiter('\n')
 			.fieldDelimiter(' ')
-			.field(PactInteger.class, 0) // document ID
-			.field(PactString.class, 1) // term
-			.field(PactDouble.class, 2); // tf-idf
+			.field(IntValue.class, 0) // document ID
+			.field(StringValue.class, 1) // term
+			.field(DoubleValue.class, 2); // tf-idf
 
 		Plan plan = new Plan(sink, "Tf-Idf Computation");
 		plan.setDefaultParallelism(numSubtasks);

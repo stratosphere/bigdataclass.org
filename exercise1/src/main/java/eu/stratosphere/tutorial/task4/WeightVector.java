@@ -23,8 +23,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
-import eu.stratosphere.pact.common.type.Value;
 import eu.stratosphere.tutorial.util.Util;
+import eu.stratosphere.types.Value;
 
 /**
  * This is a custom Value implementation for a weight vector, which maps terms (String) to a weight (Double).

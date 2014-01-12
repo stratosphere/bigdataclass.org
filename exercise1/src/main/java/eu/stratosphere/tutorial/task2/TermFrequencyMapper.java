@@ -14,9 +14,10 @@
  **********************************************************************************************************************/
 package eu.stratosphere.tutorial.task2;
 
-import eu.stratosphere.pact.common.stubs.Collector;
-import eu.stratosphere.pact.common.stubs.MapStub;
-import eu.stratosphere.pact.common.type.PactRecord;
+import eu.stratosphere.api.java.record.functions.MapFunction;
+import eu.stratosphere.types.Record;
+import eu.stratosphere.util.Collector;
+
 
 /**
  * This mapper computes the term frequency for each term in a document.
@@ -35,7 +36,7 @@ import eu.stratosphere.pact.common.type.PactRecord;
  * <p>
  * The map method will be called independently for each document.
  */
-public class TermFrequencyMapper extends MapStub {
+public class TermFrequencyMapper extends MapFunction {
 
 	// ----------------------------------------------------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ public class TermFrequencyMapper extends MapStub {
 	 * Each input document has the format "docId, document contents".
 	 */
 	@Override
-	public void map(PactRecord record, Collector<PactRecord> collector) {
+	public void map(Record record, Collector<Record> collector) {
 		// Implement your solution here
 	}
 }
