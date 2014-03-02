@@ -16,6 +16,8 @@ package eu.stratosphere.tutorial.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +26,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.SystemUtils;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 
 import eu.stratosphere.api.common.Plan;
@@ -182,9 +185,18 @@ public class Util {
 
 	private static String absolutePath(File f) {
 		if (SystemUtils.IS_OS_WINDOWS) {
-			return f.toURI().toString();
+			String urlEncodedPath = f.toURI().toString();
+			return decodePath(urlEncodedPath);
 		} else {
 			return "file://" + f.getAbsolutePath();
+		}
+	}
+
+	private static String decodePath(String urlEncodedPath) {
+		try {
+			return URLDecoder.decode(urlEncodedPath, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw Throwables.propagate(e);
 		}
 	}
 
