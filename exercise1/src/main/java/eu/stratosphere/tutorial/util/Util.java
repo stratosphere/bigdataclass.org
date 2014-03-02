@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.SystemUtils;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -176,16 +177,24 @@ public class Util {
 	public static String createTempFile(String fileName, String contents) throws IOException {
 		File f = createAndRegisterTempFile(fileName);
 		Files.write(contents, f, Charsets.UTF_8);
-		return "file://" + f.getAbsolutePath();
+		return absolutePath(f);
+	}
+
+	private static String absolutePath(File f) {
+		if (SystemUtils.IS_OS_WINDOWS) {
+			return f.toURI().toString();
+		} else {
+			return "file://" + f.getAbsolutePath();
+		}
 	}
 
 	public static String createTempDir(String dirName) throws IOException {
 		File f = createAndRegisterTempFile(dirName);
-		return "file://" + f.getAbsolutePath();
+		return absolutePath(f);
 	}
 
 	public static String getTempPath() {
-		return "file://" + new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
+		return absolutePath(new File(System.getProperty("java.io.tmpdir")));
 	}
 
 
@@ -220,7 +229,7 @@ public class Util {
 		Files.createParentDirs(f);
 		tempFiles.add(parentToDelete);
 		return f;
-	}
+	} 
 
 	private static void deleteRecursively(File f) throws IOException {
 		if (f.isDirectory()) {
