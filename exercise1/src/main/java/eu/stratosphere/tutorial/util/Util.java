@@ -16,13 +16,17 @@ package eu.stratosphere.tutorial.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.SystemUtils;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 
 import eu.stratosphere.api.common.Plan;
@@ -176,16 +180,33 @@ public class Util {
 	public static String createTempFile(String fileName, String contents) throws IOException {
 		File f = createAndRegisterTempFile(fileName);
 		Files.write(contents, f, Charsets.UTF_8);
-		return "file://" + f.getAbsolutePath();
+		return absolutePath(f);
+	}
+
+	private static String absolutePath(File f) {
+		if (SystemUtils.IS_OS_WINDOWS) {
+			String urlEncodedPath = f.toURI().toString();
+			return decodePath(urlEncodedPath);
+		} else {
+			return "file://" + f.getAbsolutePath();
+		}
+	}
+
+	private static String decodePath(String urlEncodedPath) {
+		try {
+			return URLDecoder.decode(urlEncodedPath, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw Throwables.propagate(e);
+		}
 	}
 
 	public static String createTempDir(String dirName) throws IOException {
 		File f = createAndRegisterTempFile(dirName);
-		return "file://" + f.getAbsolutePath();
+		return absolutePath(f);
 	}
 
 	public static String getTempPath() {
-		return "file://" + new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
+		return absolutePath(new File(System.getProperty("java.io.tmpdir")));
 	}
 
 
@@ -220,7 +241,7 @@ public class Util {
 		Files.createParentDirs(f);
 		tempFiles.add(parentToDelete);
 		return f;
-	}
+	} 
 
 	private static void deleteRecursively(File f) throws IOException {
 		if (f.isDirectory()) {
