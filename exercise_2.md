@@ -100,7 +100,7 @@ of `(docId, word, count)`.
 </div>
 
 This task uses a new operator: Join. It has two inputs, namely the outputs from
-the previous tasks. We often refern to them as the left input and the right
+the previous tasks. We often refer to them as the left input and the right
 input.
 
 The user code gets to inputs, namely a record from the left and a record from

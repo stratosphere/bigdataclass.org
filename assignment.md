@@ -45,9 +45,9 @@ Then, check if the individual terms are in the HashSet (`Util.STOP_WORDS`) of st
 
 You should also use a [HashSet](http://docs.oracle.com/javase/7/docs/api/java/util/HashSet.html) to check if the word already occured for the given document. Remember, count each word only once here.
 
-The last step is to emit all words with a frequency count of 1. Use a `PactRecord` with two fields. Set the word as the first field and the count (always 1) as the second field.
-You have to use the build-in datatypes for `String` and `int` (`PactString` and `PactInteger`).
-Use the output collector (second argument of `map()`) to emit the `PactRecord`
+The last step is to emit all words with a frequency count of 1. Use a `Record` with two fields. Set the word as the first field and the count (always 1) as the second field.
+You have to use the build-in datatypes for `String` and `int` (`StringValue` and `IntValue`).
+Use the output collector (second argument of `map()`) to emit the `Record`
 
 
 Use the provided `main()` method to test your code.
@@ -66,14 +66,14 @@ Use a HashMap to identify the frequency of each word in the document.
 
 ##Task 3: Join Document Frequency with Term Frequency
 
-This task uses a new Contract: Match. It has two inputs, namely the outputs from the previous tasks.
+This task uses a new Operator: Join. It has two inputs, namely the outputs from the previous tasks.
 
-In the `MatchStub`, the `match()` method has two parameters, a `PactRecord` from each input that matched on the term.
+In the `JoinFunction`, the `join()` method has two parameters, a `Record` from each input that matched on the term.
 
 The following pseudo code describes what the join does.
 
 ```javascript
-match( (word, df), (docid, word, tf)) {
+join( (word, df), (docid, word, tf)) {
 	tf_idf(word) = tf * log [Util.NUM_DOCUMENTS/df]
 	return (docid, word, tf_idf(word))
 }
