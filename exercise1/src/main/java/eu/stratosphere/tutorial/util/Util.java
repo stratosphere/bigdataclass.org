@@ -36,6 +36,8 @@ import eu.stratosphere.nephele.client.JobExecutionResult;
 
 public class Util {
 
+	private static final File TEMP_DIR = new File(System.getProperty("java.io.tmpdir"));
+
 	private static final List<File> tempFiles = new ArrayList<File>();
 
 	public static double NUM_DOCUMENTS = 2;
@@ -201,14 +203,15 @@ public class Util {
 	}
 
 	public static String createTempDir(String dirName) throws IOException {
-		File f = createAndRegisterTempFile(dirName);
-		return absolutePath(f);
+		File tempDir = new File(TEMP_DIR, dirName);
+		tempDir.mkdirs();
+		tempFiles.add(tempDir);
+		return absolutePath(tempDir);
 	}
 
 	public static String getTempPath() {
-		return absolutePath(new File(System.getProperty("java.io.tmpdir")));
+		return absolutePath(TEMP_DIR);
 	}
-
 
 	public static void deleteAllTempFiles() throws IOException {
 		for (File f : tempFiles) {
@@ -219,7 +222,7 @@ public class Util {
 	}
 
 	private static File createAndRegisterTempFile(String fileName) throws IOException {
-		File baseDir = new File(System.getProperty("java.io.tmpdir"));
+		File baseDir = TEMP_DIR;
 		File f = new File(baseDir, fileName);
 
 		if (f.exists()) {
