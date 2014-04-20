@@ -15,12 +15,16 @@
 package eu.stratosphere.tutorial.task3;
 
 import eu.stratosphere.api.java.record.functions.JoinFunction;
+import eu.stratosphere.tutorial.util.Util;
+import eu.stratosphere.types.DoubleValue;
+import eu.stratosphere.types.IntValue;
 import eu.stratosphere.types.Record;
+import eu.stratosphere.types.StringValue;
 import eu.stratosphere.util.Collector;
 
 /**
- * This matcher computes the tf-idf weight of every term by combining the results of the previous document and term
- * frequency computation.
+ * This matcher computes the tf-idf weight of every term by combining the results of the previous document and
+ * term frequency computation.
  */
 public class TfIdfMatcher extends JoinFunction {
 
@@ -32,6 +36,18 @@ public class TfIdfMatcher extends JoinFunction {
 	 */
 	@Override
 	public void join(Record dfRecord, Record tfRecord, Collector<Record> collector) throws Exception {
-		// Implement your solution here
+		IntValue docIdRecord = tfRecord.getField(0, IntValue.class);
+		int tf = tfRecord.getField(2, IntValue.class).getValue();
+
+		StringValue wordRecord = dfRecord.getField(0, StringValue.class);
+		int df = dfRecord.getField(1, IntValue.class).getValue();
+		double idf = Math.log((Util.NUM_DOCUMENTS + 0.0) / df);
+
+		Record outputRecord = new Record(3);
+		outputRecord.setField(0, docIdRecord);
+		outputRecord.setField(1, wordRecord);
+		outputRecord.setField(2, new DoubleValue(tf * idf));
+
+		collector.collect(outputRecord);
 	}
 }
