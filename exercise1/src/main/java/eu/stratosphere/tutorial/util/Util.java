@@ -17,6 +17,7 @@ package eu.stratosphere.tutorial.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -175,7 +176,7 @@ public class Util {
 		LocalExecutor executor = new LocalExecutor();
 		executor.start();
 		JobExecutionResult res = executor.executePlan(toExecute);
-		System.out.println("runtime:  " + res.getNetRuntime());
+		print("runtime:  " + res.getNetRuntime());
 		executor.stop();
 	}
 
@@ -202,7 +203,7 @@ public class Util {
 		}
 	}
 
-	public static String createTempDir(String dirName) throws IOException {
+	public static String createTempDir(String dirName) {
 		File tempDir = new File(TEMP_DIR, dirName);
 		tempDir.mkdirs();
 		tempFiles.add(tempDir);
@@ -252,6 +253,30 @@ public class Util {
 		} else {
 			f.delete();
 		}
+	}
+
+	public static void showResults(String outputPath) throws Exception {
+		print("Results");
+
+		URI uri = new URI(outputPath);
+		File output = new File(uri.getPath());
+		File[] listFiles = output.listFiles();
+		if (listFiles == null) {
+			print("Nothing");
+			return;
+		}
+
+		for (File f : listFiles) {
+			print("file: " + f);
+			List<String> lines = FileUtils.readLines(f);
+			for (String line : lines) {
+				print("--> " + line);
+			}
+		}
+	}
+
+	private static void print(String s) {
+		System.out.println(s);
 	}
 
 }
