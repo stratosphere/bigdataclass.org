@@ -15,7 +15,6 @@
 package eu.stratosphere.tutorial.task4;
 
 import eu.stratosphere.api.common.Plan;
-import eu.stratosphere.api.common.Program;
 import eu.stratosphere.api.common.ProgramDescription;
 import eu.stratosphere.api.common.operators.FileDataSink;
 import eu.stratosphere.api.common.operators.FileDataSource;
@@ -32,7 +31,7 @@ import eu.stratosphere.tutorial.util.Util;
 import eu.stratosphere.types.IntValue;
 import eu.stratosphere.types.StringValue;
 
-public class WeightVectorPlan implements Program, ProgramDescription {
+public class WeightVectorPlan implements ProgramDescription {
 
 	@Override
 	public String getDescription() {
@@ -41,7 +40,6 @@ public class WeightVectorPlan implements Program, ProgramDescription {
 
 	@Override
 	public Plan getPlan(String... args) {
-
 		String inputPath = args.length >= 1 ? args[0] : "";
 		String outputPath = args.length >= 2 ? args[1] : "";
 		int numSubtasks = args.length >= 3 ? Integer.parseInt(args[2]) : 1;
@@ -115,6 +113,8 @@ public class WeightVectorPlan implements Program, ProgramDescription {
 
 		Plan toExecute = new WeightVectorPlan().getPlan(inputPath, outputPath);
 		Util.executePlan(toExecute);
+
+		Util.showResults(outputPath);
 
 		Util.deleteAllTempFiles();
 	}

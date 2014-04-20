@@ -14,18 +14,20 @@
  **********************************************************************************************************************/
 package eu.stratosphere.tutorial.task1;
 
+import java.util.Set;
+
 import eu.stratosphere.api.java.record.functions.MapFunction;
+import eu.stratosphere.types.IntValue;
 import eu.stratosphere.types.Record;
 import eu.stratosphere.types.StringValue;
 import eu.stratosphere.util.Collector;
 
-
 /**
  * This mapper is part of the document frequency computation.
  * <p>
- * The document frequency of a term is the number of documents it occurs in. If a document contains a term three times,
- * it is counted only once for this document. But if another document contains the word as well, the overall frequency
- * is two.
+ * The document frequency of a term is the number of documents it occurs in. If a document contains
+ * a term three times, it is counted only once for this document. But if another document contains
+ * the word as well, the overall frequency is two.
  * <p>
  * Example:
  * 
@@ -34,17 +36,21 @@ import eu.stratosphere.util.Collector;
  * Document 2: "Hello Big Data"
  * </pre>
  * 
- * The document frequency of "Big" is 2, because it appears in two documents (even though it appears four times in
- * total). "Hello" has a document frequency of 1, because it only appears in document 2.
+ * The document frequency of "Big" is 2, because it appears in two documents (even though it appears
+ * four times in total). "Hello" has a document frequency of 1, because it only appears in document
+ * 2.
  * <p>
  * The map method will be called independently for each document.
  */
 public class DocumentFrequencyMapper extends MapFunction {
 
+	private static final IntValue ONE = new IntValue(1);
+
 	// ----------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Splits the document into terms and emits a PactRecord (term, 1) for each term of the document.
+	 * Splits the document into terms and emits a PactRecord (term, 1) for each term of the
+	 * document.
 	 * <p>
 	 * Each input document has the format "docId, document contents".
 	 * <p>
@@ -54,7 +60,8 @@ public class DocumentFrequencyMapper extends MapFunction {
 	 * 1,Gartner's definition (the 3Vs) is still widely used
 	 * </pre>
 	 * 
-	 * The document ID of the document is 1 (start of line before the comma). The terms to be extracted are:
+	 * The document ID of the document is 1 (start of line before the comma). The terms to be
+	 * extracted are:
 	 * <ul>
 	 * <li>gartner</li>
 	 * <li>s</li>
@@ -63,13 +70,20 @@ public class DocumentFrequencyMapper extends MapFunction {
 	 * <li>still</li>
 	 * <li>widely</li>
 	 * </ul>
-	 * Note that the stop words "the" and "is" have been removed and everything has been lower cased.
+	 * Note that the stop words "the" and "is" have been removed and everything has been lower
+	 * cased.
 	 */
 	@Override
 	public void map(Record record, Collector<Record> collector) {
 		// Document with format "docId, document contents"
 		String document = record.getField(0, StringValue.class).toString();
 
-		// Implement your solution here
+		String contents = DocumentUtils.extractContents(document);
+		Set<String> words = DocumentUtils.extractDistinctTokens(contents);
+
+		for (String word : words) {
+			collector.collect(new Record(new StringValue(word), ONE));
+		}
 	}
+
 }

@@ -15,7 +15,6 @@
 package eu.stratosphere.tutorial.task1;
 
 import eu.stratosphere.api.common.Plan;
-import eu.stratosphere.api.common.Program;
 import eu.stratosphere.api.common.ProgramDescription;
 import eu.stratosphere.api.common.operators.FileDataSink;
 import eu.stratosphere.api.common.operators.FileDataSource;
@@ -30,7 +29,7 @@ import eu.stratosphere.types.StringValue;
 /**
  * Task 1: Plan for document frequency computation.
  */
-public class DocumentFrequencyPlan implements Program, ProgramDescription {
+public class DocumentFrequencyPlan implements ProgramDescription {
 
 	@Override
 	public String getDescription() {
@@ -39,7 +38,6 @@ public class DocumentFrequencyPlan implements Program, ProgramDescription {
 
 	@Override
 	public Plan getPlan(String... args) {
-
 		String inputPath = args.length >= 1 ? args[0] : "";
 		String outputPath = args.length >= 2 ? args[1] : "";
 		int numSubtasks = args.length >= 3 ? Integer.parseInt(args[2]) : 1;
@@ -58,6 +56,7 @@ public class DocumentFrequencyPlan implements Program, ProgramDescription {
 			.name("Document Frequency Reducer")
 			.build();
 
+		
 		FileDataSink sink = new FileDataSink(CsvOutputFormat.class, outputPath, dfReducer, "Document Frequencies");
 		CsvOutputFormat.configureRecordFormat(sink)
 			.recordDelimiter('\n')
@@ -93,7 +92,9 @@ public class DocumentFrequencyPlan implements Program, ProgramDescription {
 
 		Plan toExecute = new DocumentFrequencyPlan().getPlan(inputPath, outputPath);
 		Util.executePlan(toExecute);
-		
+
+		Util.showResults(outputPath);
+
 		Util.deleteAllTempFiles();
 	}
 }

@@ -21,7 +21,10 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
+
+import com.google.common.collect.Lists;
 
 import eu.stratosphere.tutorial.util.Util;
 import eu.stratosphere.types.Value;
@@ -33,8 +36,12 @@ public class WeightVector implements Value {
 
 	private static final long serialVersionUID = 1L;
 
-	// - Internal state -----------------------------------------------------------------------------------------------
+	// - Internal state
+	// -----------------------------------------------------------------------------------------------
 
+	private int docId = -1;
+	private List<String> terms = Lists.newArrayList();
+	private List<Double> weights = Lists.newArrayList();
 
 	// ----------------------------------------------------------------------------------------------------------------
 
@@ -44,30 +51,29 @@ public class WeightVector implements Value {
 	/**
 	 * Sets the document ID.
 	 * 
-	 * @param docId
-	 *        Document ID
+	 * @param docId Document ID
 	 */
 	public void setDocId(int docId) {
-		// Implement your solution here
+		this.docId = docId;
 	}
 
 	/**
 	 * Adds a term with a given weight to the vector.
 	 * 
-	 * @param term
-	 *        Term to add
-	 * @param weight
-	 *        Weight of term
+	 * @param term Term to add
+	 * @param weight Weight of term
 	 */
 	public void add(String term, double weight) {
-		// Implement your solution here
+		terms.add(term);
+		weights.add(weight);
 	}
 
 	/**
 	 * Clears the contents of the vector.
 	 */
 	public void clear() {
-		// Implement your solution here
+		terms.clear();
+		weights.clear();
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------
@@ -79,7 +85,16 @@ public class WeightVector implements Value {
 	 */
 	@Override
 	public void write(DataOutput out) throws IOException {
-		// Implement your solution here
+		out.writeInt(docId);
+		out.writeInt(terms.size());
+		for (String term : terms) {
+			byte[] bytes = term.getBytes("UTF-8");
+			out.writeInt(bytes.length);
+			out.write(bytes);
+		}
+		for (double w : weights) {
+			out.writeDouble(w);
+		}
 	}
 
 	/**
@@ -89,20 +104,28 @@ public class WeightVector implements Value {
 	 */
 	@Override
 	public void read(DataInput in) throws IOException {
-		// Implement your solution here
+		clear();
+		this.docId = in.readInt();
+		int size = in.readInt();
+
+		for (int i = 0; i < size; i++) {
+			int length = in.readInt();
+			byte[] data = new byte[length];
+			in.readFully(data);
+			terms.add(new String(data, "UTF-8"));
+		}
+		for (int i = 0; i < size; i++) {
+			weights.add(in.readDouble());
+		}
 	}
 
-	/**
-	 * String representation of this vector.
-	 */
 	@Override
 	public String toString() {
-		// Implement your solution here
-		
-		return "";
+		return "WeightVector [docId=" + docId + ", terms=" + terms + ", weights=" + weights + "]";
 	}
 
-	// - Testing ------------------------------------------------------------------------------------------------------
+	// - Testing
+	// ------------------------------------------------------------------------------------------------------
 
 	public static void main(String[] args) throws IOException {
 		Random r = new Random();
