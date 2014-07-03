@@ -62,14 +62,19 @@ public class TermFrequency {
 		// get input data
 		DataSet<String> text = getTextDataSet(env);
 		
-		DataSet<Tuple3<Integer, String, Integer>> counts = 
-				text.flatMap(new TermFreqMapper());
+		
+//		-- insert code here --
+//			Create a new DataSet (with the correct type argument. Hint: Think of tuples)
+//			Call it counts. 
+//			Apply mapping.
+//	-----------------------------------------------------------------------------------------------------
+
 
 		// emit result
 		if(fileOutput) {
-			counts.writeAsCsv(outputPath, "\n", " ");
+//			counts.writeAsCsv(outputPath, "\n", " ");			//Un-comment once the step above is implemented
 		} else {
-			counts.print();
+//			counts.print();										//Un-comment once the step above is implemented
 		}
 		
 		// execute program
@@ -89,42 +94,18 @@ public class TermFrequency {
 
 		@Override
 		public void flatMap(String value, Collector<Tuple3<Integer, String, Integer>> out) {
-
-			//Split by "," in order to get the full doc ID (useful in case it is more than one digit)
-			Scanner valueTerms = new Scanner(value);
-
-			// Set delimiters to comma.
-			valueTerms.useDelimiter(",");
 			
-			//Saves the docID
-			Integer docID = Integer.parseInt(valueTerms.next());
 			
-			//Saves the rest of the 'document', meaning the content which will then be splitted into words
-			value = valueTerms.nextLine().substring(1);
-			valueTerms.close();
+//			-- insert code here --
+//			Split the input into distinct words. 
+//			Pay attention to the docID. (In this task you will also need to keep track of it.
+//			As previously stated, only non STOP_WORDs should be accepted.
+//			
+//			Hint: 
+//			Think of the appropriate data structure that supports 
+//			the uniqueness of keys while allowing value update. 
+//		-----------------------------------------------------------------------------------------------------
 
-			//The HashSet will avoid repetition.
-			HashMap<String, Integer> hsOccurrence = new HashMap<String, Integer>();
-			// First normalize and split the line
-			// then emit the pairs
-			for (String token : value.toLowerCase().split("\\W+")) {
-				if (token.length() > 0) {
-					//If a word was not previously seen, we add it
-					if (!hsOccurrence.containsKey(token)){
-						hsOccurrence.put(token, 1);
-					//Now if it does exist we update its frequency - increase by +1
-					} else {
-						hsOccurrence.put(token, hsOccurrence.get(token)+1);
-					}
-				}
-			}
-			
-			//checks if the individual terms are not stopwords
-			for (String el : hsOccurrence.keySet() ) {
-				if (!Util.STOP_WORDS.contains(el)){
-					out.collect(new Tuple3<Integer, String, Integer>(docID, el, hsOccurrence.get(el)));
-				}
-			}
 		}
 	}
 	
