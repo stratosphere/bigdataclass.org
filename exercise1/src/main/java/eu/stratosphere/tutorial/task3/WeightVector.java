@@ -22,15 +22,15 @@ import java.util.ArrayList;
 public class WeightVector {
 
 	private static final long serialVersionUID = 1L;
-	private int docId;
 
-	
-	private ArrayList<String> termList = new ArrayList<String>();
-	private ArrayList<Double> weightList = new ArrayList<Double>();
 
-	//Constructor - no arguments
-	public WeightVector() {
-	}
+//-----------------------------------------------------------------------------------------------------
+//									-- insert code here --
+//	-Appropriate parameters
+//	
+//	-Constructor with no arguments
+//-----------------------------------------------------------------------------------------------------
+
 
 	/**
 	 * Sets the document ID.
@@ -38,9 +38,11 @@ public class WeightVector {
 	 * @param docId
 	 *        Document ID
 	 */
-	public void setDocId(int docId) {
-		this.docId = docId;
-	}
+	
+//-----------------------------------------------------------------------------------------------------
+//									-- insert code here --
+//-----------------------------------------------------------------------------------------------------
+
 
 	/**
 	 * Adds a term with a given weight to the vector.
@@ -50,29 +52,34 @@ public class WeightVector {
 	 * @param weight
 	 *        Weight of term
 	 */
-	public void add(String term, double weight) {
-		termList.add(term);
-		weightList.add(weight);
-	}
+	
+//-----------------------------------------------------------------------------------------------------
+//									-- insert code here --
+//-----------------------------------------------------------------------------------------------------
+
 
 	/**
 	 * Clears the contents of the vector.
 	 */
-	public void clear() {
-		termList.clear();
-		weightList.clear();
-	}
+	
+//-----------------------------------------------------------------------------------------------------
+//									-- insert code here --
+//-----------------------------------------------------------------------------------------------------
+
 	
 	/**
 	 * String representation of this vector.
 	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		for (int i=0; i<termList.size();i++){
-			builder.append(" , ("+termList.get(i)+" , ");
-			builder.append(weightList.get(i)+")");
-		}
-		return "("+docId+builder.toString()+")";
-	}
+	
+//-----------------------------------------------------------------------------------------------------
+//									-- insert code below --
+	
+//	@Override
+//	public String toString() {								//Un-comment when starting implmentation
+//		..................................
+//		return "...";
+//	}
+	
+//-----------------------------------------------------------------------------------------------------
+	
 }

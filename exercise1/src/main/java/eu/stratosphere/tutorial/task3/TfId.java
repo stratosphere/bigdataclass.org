@@ -52,36 +52,29 @@ public class TfId {
 		// get input data
 		DataSet<String> input = getTextDataSet(env);
 		
-		//Involves mapping first then reducing
-		DataSet<Tuple2<String, Integer>> inputDocFreqs = 
-				input
-				.flatMap(new DocumentFrequencyMapper())
-				.groupBy(0)
-				.reduceGroup(new DocumentFrequencyReducer());
 		
-		//Involves mapping
-		DataSet<Tuple3<Integer, String, Integer>> inputTermFreqs = 
-				input
-				.flatMap(new TermFreqMapper());
+//		-- insert code here --
 		
-		DataSet<Tuple3<Integer, String, Double>> result =
-				inputDocFreqs.join(inputTermFreqs)
-				// key definition on first DataSet using a field position key
-				.where(0)
-				// key definition of second DataSet using a field position key
-				.equalTo(1)
-				.with(new TfIdCount());
+		//DataSet<Tuple2<String, Integer>> inputDocFreqs = 
+		//		...
 		
+		//DataSet<Tuple3<Integer, String, Integer>> inputTermFreqs =
+		//		...
+
+		//DataSet<Tuple3<Integer, String, Double>> result =
+		//		...		Hint: involves a join
 		
-		DataSet<WeightVector> finalOutput = 
-				result.groupBy(0)
-				.reduceGroup(new ReduceToVector());
+		//DataSet<WeightVector> finalOutput =
+		//		...
+		
+//-----------------------------------------------------------------------------------------------------
+
 		
 		// emit final output
 		if(fileOutput) {
-			finalOutput.writeAsCsv(outputPath, "\n", " ");
+//			finalOutput.writeAsCsv(outputPath, "\n", " ");			//Un-comment once the steps above are implemented
 		} else {
-			finalOutput.print();
+//			finalOutput.print();									//Un-comment once the steps above are implemented
 		}
 		
 		// execute program

@@ -14,9 +14,14 @@ import eu.stratosphere.util.Collector;
  * <p>
  */
 
-public class ReduceToVector extends
-		GroupReduceFunction<Tuple3<Integer, String, Double>, WeightVector> {
-
+public class ReduceToVector extends 
+	GroupReduceFunction<Tuple3<Integer, String, Double>, WeightVector> {
+	
+//-----------------------------------------------------------------------------------------------------
+//	-- Does not need to be modified --
+//-----------------------------------------------------------------------------------------------------
+	
+	
 	@Override
 	public void reduce(Iterator<Tuple3<Integer, String, Double>> values,
 			Collector<WeightVector> out) throws Exception {
