@@ -1,5 +1,5 @@
---- 
-layout: with_comment 
+---
+layout:	with_comment
 title:  "Getting Started"
 ---
 

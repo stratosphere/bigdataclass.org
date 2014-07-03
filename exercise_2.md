@@ -1,4 +1,4 @@
---- 
+---
 layout: default_exercise
 title:  "Exercise 2: Tf-Idf (Scala)"
 tasks: 

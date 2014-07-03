@@ -1,5 +1,5 @@
---- 
-layout: default_exercise
+---
+layout:	default_exercise
 title:  "Exercise 1: Tf-Idf (Java)"
 tasks: 
   -       { anchor: overview, title: "Overview"}
