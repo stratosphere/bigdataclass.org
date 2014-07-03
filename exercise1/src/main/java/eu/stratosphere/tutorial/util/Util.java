@@ -29,10 +29,9 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 
+import eu.stratosphere.api.common.JobExecutionResult;
 import eu.stratosphere.api.common.Plan;
 import eu.stratosphere.client.LocalExecutor;
-import eu.stratosphere.nephele.client.JobExecutionResult;
-
 
 public class Util {
 
