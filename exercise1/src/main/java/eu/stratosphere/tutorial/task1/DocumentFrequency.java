@@ -68,17 +68,19 @@ public class DocumentFrequency {
 		// get input data
 		DataSet<String> text = getTextDataSet(env);
 		
-		DataSet<Tuple2<String, Integer>> counts = 
-				text.flatMap(new DocumentFrequencyMapper())
-				// group by the tuple field "0"
-				.groupBy(0)
-				.reduceGroup(new DocumentFrequencyReducer());
+		
+//		-- insert code here --
+//			Create a new DataSet (with the correct type argument. Hint: Think of tuples)
+//			Call it counts. 
+//			Apply a map and a reduce.
+//		-----------------------------------------------------------------------------------------------------
+		
 				
 		// emit result
 		if(fileOutput) {
-			counts.writeAsCsv(outputPath, "\n", " ");
+//			counts.writeAsCsv(outputPath, "\n", " ");				//Un-comment once the step above is implemented
 		} else {
-			counts.print();
+//			counts.print();											//Un-comment once the step above is implemented
 		}
 		
 		// execute program
@@ -99,35 +101,12 @@ public class DocumentFrequency {
 
 		@Override
 		public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {
-
-			//Split by "," in order to get the full doc ID (useful in case it is more than one digit)
-			Scanner valueTerms = new Scanner(value);
-
-			// Set delimiters to comma.
-			valueTerms.useDelimiter(",");
 			
-			//Skips the docID
-			valueTerms.next();
-			//Saves the rest of the 'document', meaning the content which will then be splitted into words
-			value = valueTerms.nextLine().substring(1);
-			valueTerms.close();
+//			-- insert code here --
+//				Split the input into distinct words. Pay attention to the docID. 
+//				Also, only non STOP_WORDs should be accepted.
+//			-----------------------------------------------------------------------------------------------------
 
-			HashSet hsOccurrence = new HashSet();
-			// First normalize and split the line
-			// then emit the pairs
-			for (String token : value.toLowerCase().split("\\W+")) {
-				if (token.length() > 0) {
-					//The HashSet will avoid repetition.
-					if (hsOccurrence.contains(token)) continue;
-
-					//Word appears in the first time in the sentence
-					hsOccurrence.add(token);
-
-					if (!Util.STOP_WORDS.contains(token)){
-						out.collect(new Tuple2<String, Integer>(token, 1));
-					}	
-				}
-			}
 		}
 	}
 	
@@ -144,14 +123,15 @@ public class DocumentFrequency {
 		public void reduce(Iterator<Tuple2<String, Integer>> values,
 				Collector<Tuple2<String, Integer>> out) throws Exception {
 			
-			Tuple2<String, Integer> tup = values.next();
-			String key = tup.f0;
-			int intSum = tup.f1;
-			while(values.hasNext()){
-				tup = values.next();
-				intSum += tup.f1;
-			}
-			out.collect(new Tuple2<String, Integer>(key, intSum));
+//			-- insert code here --
+//				Takes over the mapper.
+//				reduce will compute the sum (addition) for each unique word.
+//				Remember: 
+//				In DocumentFrequency we count the number of documents that each distinct word appears in.
+//			-----------------------------------------------------------------------------------------------------
+			
+
+//			out.collect(new Tuple2<String, Integer>(key, intSum));      //Un-comment once the step above is implemented
 			
 		}
 	}
