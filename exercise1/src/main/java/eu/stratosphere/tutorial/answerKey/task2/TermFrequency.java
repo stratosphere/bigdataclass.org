@@ -103,7 +103,7 @@ public class TermFrequency {
 			value = valueTerms.nextLine().substring(1);
 			valueTerms.close();
 
-			//The HashSet will avoid repetition.
+			//The HashMap will automatically avoid repetition.
 			HashMap<String, Integer> hsOccurrence = new HashMap<String, Integer>();
 			// First normalize and split the line
 			// then emit the pairs

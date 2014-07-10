@@ -21,20 +21,28 @@ public class ReduceToVector extends
 //	-- Does not need to be modified --
 //-----------------------------------------------------------------------------------------------------
 	
+//-----------------------------------------------------------------------------------------------------
+//	
+//	-- Uncomment content of the reduce method once 
+//	   the setDocId as well as the add methods have been implemented in WeightVector.java --
+//
+//-----------------------------------------------------------------------------------------------------
+	
 	
 	@Override
 	public void reduce(Iterator<Tuple3<Integer, String, Double>> values,
 			Collector<WeightVector> out) throws Exception {
 		
-		WeightVector vector = new WeightVector();
-		Tuple3<Integer, String, Double> value = values.next();
-		vector.setDocId(value.f0);
-		vector.add(value.f1, value.f2);
-		while (values.hasNext()){
-			value = values.next();
-			vector.add(value.f1, value.f2);
-		}
-		out.collect(vector);
+//		WeightVector vector = new WeightVector();
+//		Tuple3<Integer, String, Double> value = values.next();
+//		vector.setDocId(value.f0);
+//		vector.add(value.f1, value.f2);
+//		while (values.hasNext()){
+//			value = values.next();
+//			vector.add(value.f1, value.f2);
+//		}
+//		out.collect(vector);
+		
 	}
 
 }

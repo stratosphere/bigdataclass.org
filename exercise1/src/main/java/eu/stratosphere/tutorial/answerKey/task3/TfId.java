@@ -52,18 +52,19 @@ public class TfId {
 		// get input data
 		DataSet<String> input = getTextDataSet(env);
 		
-		//Involves mapping first then reducing
+		//Involves mapping first then reducing - call to the DocumentFrequency class (previously implemented)
 		DataSet<Tuple2<String, Integer>> inputDocFreqs = 
 				input
 				.flatMap(new DocumentFrequencyMapper())
 				.groupBy(0)
 				.reduceGroup(new DocumentFrequencyReducer());
 		
-		//Involves mapping
+		//Involves mapping - call to the TermFrequency class (previously implemented)
 		DataSet<Tuple3<Integer, String, Integer>> inputTermFreqs = 
 				input
 				.flatMap(new TermFreqMapper());
 		
+		//Join
 		DataSet<Tuple3<Integer, String, Double>> result =
 				inputDocFreqs.join(inputTermFreqs)
 				// key definition on first DataSet using a field position key
