@@ -33,6 +33,7 @@ Both the website (see `gh-pages` branch) and the exercise skeletons are on the R
 **Contributors**:
 
  * Ufuk Celebi
- * [Robert Metzger](http://robertmetzger.de)
+ * [Robert Metzger](http://robertmetzger.de)]
+ * [Mariem Ayadi](https://www.linkedin.com/in/mariemayadi)
  * Aljoscha Krettek
  * *Your name here!*

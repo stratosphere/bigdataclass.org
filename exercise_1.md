@@ -43,22 +43,31 @@ The schema of the input file looks like this:
 ```
 docid, document contents
 ```
-The Mapper is called with the documents. So each call of the `map()` function gets one line (e.g. a document).
+The input text data will first apply a flatMap and later a reduce method. These are both overrides under respectively a mapper class that extends the abstract class FlatMapFunction and a reducer class that extends the abstract class GroupReduceFunction.
+Remember to "group by" the correct index. (In our case the first field: the string representing the splitted words)
 
-You need to do the following in the Mapper: First, split the input line so that only alphanumerical words are accepted. Remember to remove the document id. 
+Further instructions: 
 
-Then, check if the individual terms are in the HashSet (`Util.STOP_WORDS`) of stopwords. You do not need to do additional extra checks because we already checked the input.
+-The mapper class: DocumentFrequencyMapper
+You will need to split the input line so that only alphanumerical words are accepted. Remember to remove the document id. (Hint: In case that the length of the docId is unknown, you can opt to use a scanner that uses "," as its delimiter.)
+Next, you will need to check if the individual terms are in the HashSet (`Util.STOP_WORDS`) of stopwords. You do not need to do additional extra checks because we already checked the input.
 
-You should also use a [HashSet](http://docs.oracle.com/javase/7/docs/api/java/util/HashSet.html) to check if the word already occured for the given document. Remember, count each word only once here.
+You should also use a [HashSet](http://docs.oracle.com/javase/7/docs/api/java/util/HashSet.html) to check if the word already occured for the given document. Remember, repeted words in the same docuement are only counted once.
 
-The last step is to emit all words with a frequency count of 1. Use a `Record` with two fields. Set the word as the first field and the count (always 1) as the second field.
-You have to use the build-in datatypes for `String` and `int` (`StringValue` and `IntValue`).
-Use the output collector (second argument of `map()`) to emit the `Record`
-
+The last step is to emit all words with a frequency count of 1. (Hint: the tuple's second field type is Integer.) The output collectors can be used as follows: 
+```
+<nameOfCollector>.collect(new Tuple2<String, Integer>(... , ...))
+```
+-The reducer class: DocumentFrequencyReducer
+The reducer will take over the mapper. It uses an iterator to go through the previously collected tuple. While doing so, it adds up the number of times a word has occured.
+The result is then sent to the collector.
+```
+out.collect(new Tuple2<String, Integer>(key, intSum));
+```
 
 Use the provided `main()` method to test your code.
 
-Task #1 is quite similar to the classical WordCount example, which is something like the "Hello World" of Big Data.
+Task #1 is quite similar to the classical WordCount example, which in Big Data is analogous to "Hello World".
 </section>
 
 <a name="task2"></a>
@@ -74,6 +83,10 @@ This time, the output tuples shall look like this `(docid, word, frequency)`.
 
 You should use the same splitter for the input line as in Task #1. But this time, use the `docid`. 
 Use a HashMap to identify the frequency of each word in the document.
+The result will as usual be outputted to the collector:
+```
+out.collect(new Tuple3<Integer, String, Integer>(... , ... , ...);
+```
 
 <section id="task3">
 ## Task 3: Join
@@ -84,9 +97,25 @@ Use a HashMap to identify the frequency of each word in the document.
   </div>
 </div>
 
-This task uses a new Operator: Join. It has two inputs, namely the outputs from the previous tasks.
+### Preparation - WeightVector
 
-In the `JoinFunction`, the `join()` method has two parameters, a `Record` from each input that matched on the term.
+Stratosphere comes with a variety of build-in datatypes. For this assignment, you are going to implement your own. This step is a preparation for the last one. We want to store a `WeightVector`.
+The datatype has an `add(String, double)` method to store the weight of each word.
+
+### TfId
+
+This class can be viewed as the plan. It brings together four main classes:
+- the previously implemented DocumentFrequency and TermFrequency
+- the newly created TfIdCount which is a class extending JoinFunction (see USER FUNCTIONS section)
+- the provided ReduceToVector class.
+
+Further instructions:
+
+TfIdCount outputs a new tuple with the following field types
+```
+Tuple3<Integer, String, Double>
+```
+You will need to override the join method.
 
 The following pseudo code describes what the join does.
 
@@ -98,29 +127,19 @@ join( (word, df), (docid, word, tf)) {
 ```
 </section>
 
-<section id="task4">
-<h2 class="page-header">Task 4: Custom Type and Weights per Document</h2>
-
 <div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-    <span class="sr-only">60% Complete</span>
+  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+    <span class="sr-only">70% Complete</span>
   </div>
 </div>
 
-### Preparation
-
-Stratosphere comes with a bunch of build-in datatypes. For this assignment, you are going to implement your own. This task is a preparation for the last one. We want to store a `WeightVector`.
-The datatype has a `add(String, double)` method to store the weight of each word.
-
-The main task here is implementing the data de/serialization methods which are used before transferring the data through the network or to disk.
-
-We recommend to store each `(String, double)` pair in two lists.
-
+<section id="task4">
 ### Term Weights per Document
-
+-ReduceToVector
 This reduce task takes the output of the join and groups it by the document ids (`docid`).
 Write the document id and the terms including their weight into the `WeightVector` you have created in the previous task.
-
+Remember to uncomment the provided code.
+Then implement the reduceGroup method accordingly in TfId.
 </section>
 
 ## Congratulations!
