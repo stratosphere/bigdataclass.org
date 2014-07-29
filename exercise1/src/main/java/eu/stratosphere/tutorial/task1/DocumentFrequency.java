@@ -1,0 +1,179 @@
+/***********************************************************************************************************************
+*
+* Copyright (C) 2010-2013 by the Stratosphere project (http://stratosphere.eu)
+*
+* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+* the License. You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+* an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+* specific language governing permissions and limitations under the License.
+*
+**********************************************************************************************************************/
+package eu.stratosphere.tutorial.task1;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Scanner;
+
+import eu.stratosphere.api.java.DataSet;
+import eu.stratosphere.api.java.ExecutionEnvironment;
+import eu.stratosphere.api.java.functions.FlatMapFunction;
+import eu.stratosphere.api.java.functions.GroupReduceFunction;
+import eu.stratosphere.api.java.functions.ReduceFunction;
+import eu.stratosphere.api.java.tuple.Tuple2;
+import eu.stratosphere.api.java.tuple.Tuple3;
+import eu.stratosphere.tutorial.tempTextData.TempTextData;
+import eu.stratosphere.tutorial.util.Util;
+import eu.stratosphere.util.Collector;
+import eu.stratosphere.tutorial.util.*;
+
+
+/**
+ * Task 1:
+ * <p>
+ * The document frequency of a term is the number of documents it occurs in. If a document contains a term three times,
+ * it is counted only once for this document. But if another document contains the word as well, the overall frequency
+ * is two.
+ * <p>
+ * Example:
+ * 
+ * <pre>
+ * Document 1: "Big Big Big Data"
+ * Document 2: "Hello Big Data"
+ * </pre>
+ * 
+ * The document frequency of "Big" is 2, because it appears in two documents (even though it appears four times in
+ * total). "Hello" has a document frequency of 1, because it only appears in document 2.
+ */
+
+@SuppressWarnings("serial")
+public class DocumentFrequency {
+	
+	// *************************************************************************
+	//     PROGRAM
+	// *************************************************************************
+	
+	public static void main(String[] args) throws Exception {
+		
+		if(!parseParameters(args)) {
+			return;
+		}
+		
+		// set up the execution environment
+		final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
+		
+		// get input data
+		DataSet<String> text = getTextDataSet(env);
+		
+		
+//		-- insert code here --
+//			Create a new DataSet (with the correct type argument. Hint: Think of tuples)
+//			Call it counts. 
+//			Apply a map and a reduce.
+//		-----------------------------------------------------------------------------------------------------
+		
+				
+		// emit result
+		if(fileOutput) {
+//			counts.writeAsCsv(outputPath, "\n", " ");				//Un-comment once the step above is implemented
+		} else {
+//			counts.print();											//Un-comment once the step above is implemented
+		}
+		
+		// execute program
+		env.execute("Task One Document frequency");
+	}
+	
+	// *************************************************************************
+	//     USER FUNCTIONS
+	// *************************************************************************
+	
+
+	/**
+	 * DocumentFrequencyMapper extends the FlatMapFunction.
+	 * Processes the input by splitting each line so that only alphanumerical words are accepted.
+	 * The map method will be called independently for each document.
+	 */
+	public static final class DocumentFrequencyMapper extends FlatMapFunction<String, Tuple2<String, Integer>> {
+
+		@Override
+		public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {
+			
+//			-- insert code here --
+//				Split the input into distinct words. Pay attention to the docID. 
+//				Also, only non STOP_WORDs should be accepted.
+//			-----------------------------------------------------------------------------------------------------
+
+		}
+	}
+	
+	/**
+	 * DocumentFrequencyReducer extends the GroupReduceFunction.
+	 * Adds up all (term, 1) records emitted by the mapper grouped for each term.
+	 * <p>
+	 * If the inputs are records (big, 1) and (big, 1), the reduce method will be called with an iterator over both
+	 * records.
+	 */
+	public static final class DocumentFrequencyReducer extends GroupReduceFunction<Tuple2<String, Integer>,Tuple2<String, Integer>> {
+
+		@Override
+		public void reduce(Iterator<Tuple2<String, Integer>> values,
+				Collector<Tuple2<String, Integer>> out) throws Exception {
+			
+//			-- insert code here --
+//				Takes over the mapper.
+//				reduce will compute the sum (addition) for each unique word.
+//				Remember: 
+//				In DocumentFrequency we count the number of documents that each distinct word appears in.
+//			-----------------------------------------------------------------------------------------------------
+			
+
+//			out.collect(new Tuple2<String, Integer>(key, intSum));      //Un-comment once the step above is implemented
+			
+		}
+	}
+
+	
+	// *************************************************************************
+	//     UTIL METHODS
+	// *************************************************************************
+	
+	private static boolean fileOutput = false;
+	private static String textPath;
+	private static String outputPath;
+	
+	private static boolean parseParameters(String[] args) {
+		
+		if(args.length > 0) {
+			// parse input arguments
+			fileOutput = true;
+			if(args.length == 2) {
+				textPath = args[0];
+				outputPath = args[1];
+			} else {
+				System.err.println("Usage: DocumentFrequency <text path> <result path>");
+				return false;
+			}
+		} else {
+			System.out.println("Executing DocumentFrequency example with built-in default data.");
+			System.out.println("  Provide parameters to read input data from a file.");
+			System.out.println("  Usage: DocumentFrequency <text path> <result path>");
+		}
+		return true;
+	}
+	
+	private static DataSet<String> getTextDataSet(ExecutionEnvironment env) {
+		if(fileOutput) {
+			// read the text file from given input path
+			return env.readTextFile(textPath);
+		} else {
+			// get default test text data
+			return TempTextData.getDefaultTextLineDataSet(env);
+		}
+	}
+	
+
+}
