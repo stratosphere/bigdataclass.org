@@ -41,7 +41,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Pact-Assembler-Class>eu.stratosphere.tutorial.WeightVectorPlan</Pact-Assembler-Class>
+              <program-class>eu.stratosphere.tutorial.WeightVectorPlan</program-class>
             </manifestEntries>
           </archive>
         </configuration>
