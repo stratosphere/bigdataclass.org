@@ -1,5 +1,5 @@
---- 
-layout: with_comment 
+---
+layout:	with_comment
 title:  "Getting Started"
 ---
 
@@ -25,8 +25,7 @@ project, you can import this project into Eclipse,
 using the "Import -> Import as Maven Project" menu.
 This can take a while as Maven is going to download all the dependencies.
 
-When you are working on the Scala exercise you will also need the following
-plugins:
+Before starting to work on the exercises, you will need the following plugins:
 
 Eclipse 4.x:
 
@@ -51,6 +50,7 @@ Eclipse 3.7:
 
 Its seems that OS X does not allocate enough memory for Stratosphere's `LocalExecutor`.
 Open the Run Configuration (the drop down menu right to the "Run" button) and add the following to the JVM Arguments `-Xms400m -Xmx800m`.
+Note: the memory issue has been fixed in later releases (0.6-SNAPSHOT)
 
 
 **How can I generate more data (Test data)?**
