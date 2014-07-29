@@ -15,7 +15,6 @@
 package eu.stratosphere.tutorial.task2;
 
 import eu.stratosphere.api.common.Plan;
-import eu.stratosphere.api.common.Program;
 import eu.stratosphere.api.common.ProgramDescription;
 import eu.stratosphere.api.common.operators.FileDataSink;
 import eu.stratosphere.api.common.operators.FileDataSource;
@@ -29,7 +28,7 @@ import eu.stratosphere.types.StringValue;
 /**
  * Task 2: Plan for term frequency computation.
  */
-public class TermFrequencyPlan implements Program, ProgramDescription {
+public class TermFrequencyPlan implements ProgramDescription {
 
 	@Override
 	public String getDescription() {
@@ -94,6 +93,8 @@ public class TermFrequencyPlan implements Program, ProgramDescription {
 
 		Plan toExecute = new TermFrequencyPlan().getPlan(inputPath, outputPath);
 		Util.executePlan(toExecute);
+
+		Util.showResults(outputPath);
 
 		Util.deleteAllTempFiles();
 	}

@@ -17,6 +17,7 @@ package eu.stratosphere.tutorial.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,6 +36,8 @@ import eu.stratosphere.nephele.client.JobExecutionResult;
 
 
 public class Util {
+
+	private static final File TEMP_DIR = new File(System.getProperty("java.io.tmpdir"));
 
 	private static final List<File> tempFiles = new ArrayList<File>();
 
@@ -173,7 +176,7 @@ public class Util {
 		LocalExecutor executor = new LocalExecutor();
 		executor.start();
 		JobExecutionResult res = executor.executePlan(toExecute);
-		System.out.println("runtime:  " + res.getNetRuntime());
+		print("runtime:  " + res.getNetRuntime());
 		executor.stop();
 	}
 
@@ -200,15 +203,16 @@ public class Util {
 		}
 	}
 
-	public static String createTempDir(String dirName) throws IOException {
-		File f = createAndRegisterTempFile(dirName);
-		return absolutePath(f);
+	public static String createTempDir(String dirName) {
+		File tempDir = new File(TEMP_DIR, dirName);
+		tempDir.mkdirs();
+		tempFiles.add(tempDir);
+		return absolutePath(tempDir);
 	}
 
 	public static String getTempPath() {
-		return absolutePath(new File(System.getProperty("java.io.tmpdir")));
+		return absolutePath(TEMP_DIR);
 	}
-
 
 	public static void deleteAllTempFiles() throws IOException {
 		for (File f : tempFiles) {
@@ -219,7 +223,7 @@ public class Util {
 	}
 
 	private static File createAndRegisterTempFile(String fileName) throws IOException {
-		File baseDir = new File(System.getProperty("java.io.tmpdir"));
+		File baseDir = TEMP_DIR;
 		File f = new File(baseDir, fileName);
 
 		if (f.exists()) {
@@ -249,6 +253,30 @@ public class Util {
 		} else {
 			f.delete();
 		}
+	}
+
+	public static void showResults(String outputPath) throws Exception {
+		print("Results");
+
+		URI uri = new URI(outputPath);
+		File output = new File(uri.getPath());
+		File[] listFiles = output.listFiles();
+		if (listFiles == null) {
+			print("Nothing");
+			return;
+		}
+
+		for (File f : listFiles) {
+			print("file: " + f);
+			List<String> lines = FileUtils.readLines(f);
+			for (String line : lines) {
+				print("--> " + line);
+			}
+		}
+	}
+
+	private static void print(String s) {
+		System.out.println(s);
 	}
 
 }
