@@ -9,6 +9,27 @@ tasks:
   -       { anchor: task4, title: "4: WeightVector per Document" }
 ---
 
+
+Estimates the value of Pi using the Monte Carlo method.   
+The area of a circle is Pi * R^2, R being the radius of the circle.   
+The area of a square is 4 * R^2, where the length of the square's edge is 2*R.   
+
+Thus Pi = 4 * (area of circle / area of square).   
+
+The idea is to find a way to estimate the circle to square area ratio.   
+The Monte Carlo method suggests collecting random points (within the square)   
+
+```java
+x = Math.random() * 2 - 1
+y = Math.random() * 2 - 1
+```   
+then counting the number of points that fall within the circle    
+
+```
+x * x + y * y < 1
+```
+
+
 <section id="overview">
 ## Overview
 

@@ -118,7 +118,7 @@ In this case, field "0" wich corresponds to the word. Thus we get,
 (family,1)   
 ...  
 
--Thanks tot his grouping, `sum`'s only job is to perform a simple addition. Again depending on the specified field, in this case "1", the count.    
+-Thanks to this grouping, `sum`'s only job is to perform a simple addition. Again depending on the specified field, in this case "1", the count.    
 
 ####Executing the program & showing the output
 
@@ -172,4 +172,4 @@ DataSet<WC> wordCounts = words
                          .reduce(new WordCounter());
 ```   
 
-For more details, please refer to the [Flink Java API guide](http://example.com/ "Flink Java API guide")
+For more details, please refer to the [Flink Java API guide](http://flink.incubator.apache.org/docs/0.6-SNAPSHOT/java_api_guide.html "Flink Java API guide")
